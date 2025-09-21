@@ -1,0 +1,17 @@
+import { Cart, Prouduct } from "../../../../db/index.js"
+
+export const clearCart = async (userId) => {
+    const updatedCart = await Cart.findOneAndUpdate(
+        { user: userId },
+        { products: [] }
+    ) //{}, null
+    if(!updatedCart){
+        return { errMessage: 'fail to update cart'}
+    }
+    return true
+}
+
+export const updateProductQuantity = async (productId, quantity) => {
+   // await Prouduct.findByIdAndUpdate(productId, { stock: {$inc: -quantity}})
+    await Prouduct.findByIdAndUpdate(productId, { $inc: { stock: -quantity }})
+}
